@@ -26,7 +26,6 @@ app.get("/api/:date?", function (req, res) {
   let date;
 
   if (req.params.date == null) {
-    // console.log("Empty date");
     date = new Date();
   } else if (/^\d+$/.test(req.params.date)) {
     date = new Date(req.params.date * 1);
@@ -34,15 +33,10 @@ app.get("/api/:date?", function (req, res) {
     date = new Date(req.params.date);
   }
 
-  // console.log(date);
-  // console.log(date.toUTCString());
-
   if (date.toString() === 'Invalid Date') {
     res.json({'error': 'Invalid date'});
   } else {
-    // let dateString = weekday[date.getDay()] + ', ' + [date.getDate(), month[date.getMonth()], date.getFullYear()].join(' ') + ' 00:00:00 GMT';
     let dateString = weekday[date.getDay()] + ', ' + [date.getDate(), month[date.getMonth()], date.getFullYear()].join(' ') + ' ' + date.toUTCString().slice(17, 29);
-    // let dateString = weekday[date.getDay()] + ', ' + [date.getDate(), month[date.getMonth()], date.getFullYear()].join(' ') + ' ' + [date.getUTCHours(), date.getMinutes(), date.getSeconds()].join(':');
     res.json({'unix': date.getTime(), 'utc': date.toUTCString()});
   }
 });
